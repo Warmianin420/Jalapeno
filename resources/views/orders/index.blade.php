@@ -8,9 +8,6 @@
     <div id="cennik" class="container mt-5 mb-5">
         <div class="row">
             <h1>Zamówienia</h1>
-            <div class="row mb-2">
-                <a href="{{ route('orders.create') }}">Dodaj nowe zamówienie</a>
-            </div>
         </div>
         <div class="table-responsive-sm">
             <table class="table table-hover table-striped">
@@ -18,9 +15,9 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Użytkownik</th>
-                        <th scope="col">Towar</th>
-                        <th scope="col">Ilość</th>
                         <th scope="col">Data zamówienia</th>
+                        <th scope="col">Łączna kwota</th>
+                        <th scope="col">Produkty</th>
                         <th scope="col">Akcje</th>
                     </tr>
                 </thead>
@@ -29,9 +26,15 @@
                         <tr>
                             <th scope="row">{{ $order->id }}</th>
                             <td>{{ $order->user->name }}</td>
-                            <td>{{ $order->pepper->name }}</td>
-                            <td>{{ $order->quantity }}</td> <!-- Dodane wyświetlanie ilości -->
-                            <td>{{ $order->order_date->format('d-m-Y H:i') }}</td> <!-- Sformatowana data -->
+                            <td>{{ $order->created_at->format('d-m-Y H:i') }}</td>
+                            <td>{{ number_format($order->total_price, 2) }} PLN</td>
+                            <td>
+                                <ul>
+                                    @foreach ($order->items as $item)
+                                        <li>{{ $item['name'] }} - {{ $item['quantity'] }} szt. - {{ number_format($item['price'], 2) }} PLN</li>
+                                    @endforeach
+                                </ul>
+                            </td>
                             <td>
                                 @can('is-admin')
                                     <a href="{{ route('orders.edit', $order) }}" class="btn btn-link">Edycja</a>
@@ -55,5 +58,3 @@
 
     @include('shared.footer')
 </body>
-
-</html>

@@ -77,19 +77,24 @@ class CartController extends Controller
             return redirect()->route('cart.index')->with('error', 'Koszyk jest pusty.');
         }
 
+        $items = $cartItems->map(function ($item) {
+            return [
+                'name' => $item->pepper->name,
+                'price' => $item->pepper->price,
+                'quantity' => $item->quantity,
+                'total' => $item->pepper->price * $item->quantity,
+            ];
+        });
+
         $totalPrice = $cartItems->reduce(function ($total, $item) {
             return $total + ($item->pepper->price * $item->quantity);
         }, 0);
 
-        // Utworzenie zamówień dla każdego elementu w koszyku
-        foreach ($cartItems as $item) {
-            Order::create([
-                'user_id' => Auth::id(),
-                'pepper_id' => $item->pepper->id,
-                'quantity' => $item->quantity,
-                'order_date' => now(),
-            ]);
-        }
+        Order::create([
+            'user_id' => Auth::id(),
+            'items' => $items->toArray(),
+            'total_price' => $totalPrice,
+        ]);
 
         // Usunięcie produktów z koszyka
         CartItem::where('user_id', Auth::id())->delete();

@@ -10,22 +10,27 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'pepper_id', 'quantity', 'order_date'];
+    protected $fillable = [
+        'user_id',
+        'pepper_id',
+        'quantity',
+        'order_date',
+        'items',
+        'total_price',
+    ];
 
     protected $casts = [
         'order_date' => 'datetime',
+        'items' => 'array', // Jeśli kolumna `items` przechowuje dane w formacie JSON
     ];
 
-    public $timestamps = false;
-
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function pepper()
+    public function pepper(): BelongsTo
     {
-        return $this->belongsTo(Pepper::class);
+        return $this->belongsTo(Pepper::class, 'pepper_id');
     }
 }
-
