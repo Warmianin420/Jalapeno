@@ -37,14 +37,13 @@
                         </div>
                     </form>
 
-                    <!-- Przycisk do finalizacji zamówienia -->
+                    <!-- Link do koszyka -->
                     @if (Auth::check())
-                        <form action="{{ route('cart.checkout') }}" method="POST" class="mt-3">
-                            @csrf
-                            <button type="submit" class="btn btn-success">
-                                <i class="fa fa-check"></i> Finalizuj zamówienie
-                            </button>
-                        </form>
+                        <div class="mt-3">
+                            <a href="{{ route('cart.index') }}" class="btn btn-success">
+                                <i class="fa fa-shopping-basket"></i> Przejdź do koszyka
+                            </a>
+                        </div>
                     @endif
 
                     <!-- Opcje admina -->
