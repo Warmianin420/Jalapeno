@@ -19,10 +19,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout'); // Trasa do finalizacji zamówienia
     Route::controller(OrderController::class)->group(function () {
         Route::post('/orders/store', 'store')->name('orders.store');
-        Route::get('/orders/{id}', 'show')->name('orders.show');
-        Route::get('/orders', 'index')->name('orders.index');
+        Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
     });
-    Route::resource('orders', OrderController::class);
+    Route::resource('orders', OrderController::class); // Automatycznie obsługuje trasę orders.show
 });
 
 Route::controller(AuthController::class)->group(function () {
@@ -30,4 +29,3 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/auth/login', 'authenticate')->name('login.authenticate');
     Route::get('/auth/logout', 'logout')->name('logout');
 });
-

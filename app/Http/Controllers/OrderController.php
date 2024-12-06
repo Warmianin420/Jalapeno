@@ -53,12 +53,13 @@ class OrderController extends Controller
 
     /**
      * Display the specified resource.
-     */
-    public function show(Order $order) {}
+     */ public function show(Order $order)
+    {
+        return view('orders.show', compact('order'));
+    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
+
     public function edit(Order $order)
     {
         $peppers = Pepper::all();
@@ -81,6 +82,7 @@ class OrderController extends Controller
 
         return redirect()->route('orders.index')->with('success', 'Zamówienie zostało zaktualizowane.');
     }
+
 
 
     /**

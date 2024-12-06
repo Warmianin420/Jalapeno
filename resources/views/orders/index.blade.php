@@ -45,6 +45,18 @@
                                     <input type="submit" class="btn btn-danger btn-sm" value="Usuń" />
                                 </form>
                             </td>
+                            <td>
+                                @can('is-admin')
+                                    <a href="{{ route('orders.edit', $order) }}" class="btn btn-link">Edycja</a>
+                                @endcan
+                                <a href="{{ route('orders.show', $order->id) }}" class="btn btn-info btn-sm">Szczegóły</a> <!-- Dodano link do szczegółów -->
+                                <form method="POST" action="{{ route('orders.destroy', $order->id) }}" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <input type="submit" class="btn btn-danger btn-sm" value="Usuń" />
+                                </form>
+                            </td>
+
                         </tr>
                     @empty
                         <tr>
