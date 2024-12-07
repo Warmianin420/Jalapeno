@@ -28,4 +28,6 @@ Route::controller(AuthController::class)->group(function () {
     Route::get('/auth/login', 'login')->name('login');
     Route::post('/auth/login', 'authenticate')->name('login.authenticate');
     Route::get('/auth/logout', 'logout')->name('logout');
+    Route::get('/auth/register', 'register')->name('register');
+    Route::post('/auth/register', 'store')->name('register.store');
 });
